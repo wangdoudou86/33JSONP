@@ -30,22 +30,21 @@ var server = http.createServer(function(request, response){
     }else if (path === '/pay'){
     let amount = fs.readFileSync('./db', 'utf8')// 100
     let newAmount = amount - 1 
-    if(Math.random()>0.5){
+    
       fs.writeFileSync('./db', newAmount)//把得到的新的amount写入到db文件
-      response.setHeader('Content-Type', 'img/png')
-      response.statusCode = 200   
-      response.write(fs.readFileSync('./1.jpg'))      
-    }else{
-      response.statusCode = 404
-      response.write('fail')     
-    }
-    response.end()
+      response.setHeader('Content-Type', 'application/javascript')
+      response.statusCode = 200
+      response.write(`
+      alert("success")
+      amount.innerText = amount.innerText - 1
+      `)      
+      response.end()
     
   }
   else{
     response.statusCode = 404
     response.setHeader('Content-Type', 'text/html; charset=utf-8')
-    response.write('')
+    response.write('alert("fail")')
     response.end()
   }
 
