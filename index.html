@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <title>JSONP</title>
+</head>
+<body>
+    <h5>您的余额为<span id="amount">&&&amount&&&</span></h5>
+    <button id="button">付款</button>
+    <script>
+    button.addEventListener('click',function(e){
+        let n = amount.innerText //类型为string
+        let number = parseInt(n,10) //转成number
+        let newNumber = number - 1
+        amount.innerText = newNumber
+    })
+    
+    
+    </script>
+
+</body>
+</html>
