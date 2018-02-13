@@ -27,13 +27,20 @@ var server = http.createServer(function(request, response){
     response.setHeader('Content-Type', 'text/html; charset=utf-8')
     response.write(string)
     response.end()
-    }else if (path === '/pay' && method.toUpperCase()==='POST'){
-    let amount = fs.readFileSync('./db', 'utf8')
+    }else if (path === '/pay'){
+    let amount = fs.readFileSync('./db', 'utf8')// 100
     let newAmount = amount - 1 
-    fs.writeFileSync('./db', newAmount)//把得到的新的amount写入到db文件
-    // response.setHeader('Content-Type', 'application/javascript')
-    response.write('success')
+    if(Math.random()>0.5){
+      fs.writeFileSync('./db', newAmount)//把得到的新的amount写入到db文件
+      response.setHeader('Content-Type', 'img/png')
+      response.statusCode = 200   
+      response.write(fs.readFileSync('./1.jpg'))      
+    }else{
+      response.statusCode = 404
+      response.write('fail')     
+    }
     response.end()
+    
   }
   else{
     response.statusCode = 404
