@@ -11,18 +11,23 @@
     <script>
     button.addEventListener('click',function(e){
         let script = document.createElement('script')
-        script.src = '/pay'
-        document.body.appendChild(script)
-        script.onload = function(e){
-            e.currentTarget.remove()
+        let functionName = 'dou' + parseInt(Math.random()*10000000 ,10)
+        script.src = 'http://jack.com:8002/pay?callback=' + functionName
+        document.body.appendChild(script)//把<script>加到<body>里才会发出请求
+        window[functionName]= function(){
+            amount.innerText = amount.innerText - 0 -1
         }
-        script.onerror = function(){
-            alert('失败')
+        script.onload = function(e){
+            alert('付款成功')
             e.currentTarget.remove()
-            
+            delete window[functionName] //除掉这个函数
+        }
+        script.onerror = function(e){
+            alert('付款失败')
+            e.currentTarget.remove()
+            delete window[functionName]      
         }
     })
-    
     
     </script>
 

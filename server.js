@@ -32,11 +32,11 @@ var server = http.createServer(function(request, response){
     let newAmount = amount - 1 
     
       fs.writeFileSync('./db', newAmount)//把得到的新的amount写入到db文件
+      let callback = query.callback
       response.setHeader('Content-Type', 'application/javascript')
       response.statusCode = 200
       response.write(`
-      alert("success")
-      amount.innerText = amount.innerText - 1
+      callback.call()
       `)      
       response.end()
     
