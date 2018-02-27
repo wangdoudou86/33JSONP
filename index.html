@@ -1,35 +1,51 @@
 <!DOCTYPE html>
 <html lang="zh-Hans">
+
 <head>
     <meta charset="UTF-8">
     <title>JSONP</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
+
 <body>
     <h5>您的余额为<span id="amount">&&&amount&&&</span></h5>
     <button id="button">付款</button>
-    
+
     <script>
-    button.addEventListener('click',function(e){
-        let script = document.createElement('script')
-        let functionName = 'dou' + parseInt(Math.random()*10000000 ,10)
-        script.src = 'http://jack.com:8002/pay?callback=' + functionName
-        document.body.appendChild(script)//把<script>加到<body>里才会发出请求
-        window[functionName]= function(){
-            amount.innerText = amount.innerText - 0 -1
-        }
-        script.onload = function(e){
-            alert('付款成功')
-            e.currentTarget.remove()
-            delete window[functionName] //除掉这个函数
-        }
-        script.onerror = function(e){
-            alert('付款失败')
-            e.currentTarget.remove()
-            delete window[functionName]      
-        }
-    })
-    
+        button.addEventListener('click', function () {
+            $.ajax({
+                url: "/pay",
+                dataType: "jsonp",
+                success: function (response) {
+                    if (response === 'success') {
+                        amount.innerText = amount.innerText - 1
+                    }
+                }
+            })
+
+
+
+
+            // let script = document.createElement('script')
+            // let functionName = 'dou' + parseInt(Math.random()*10000000 ,10)
+            // script.src = 'http://jack.com:8002/pay?callback=' + functionName
+            // document.body.appendChild(script)//把<script>加到<body>里才会发出请求
+            // window[functionName]= function(){
+            //     amount.innerText = amount.innerText - 0 -1
+            // }
+            // script.onload = function(e){
+            //     alert('付款成功')
+            //     e.currentTarget.remove()
+            //     delete window[functionName] //除掉这个函数
+            // }
+            // script.onerror = function(e){
+            //     alert('付款失败')
+            //     e.currentTarget.remove()
+            //     delete window[functionName]      
+            // }
+        })
     </script>
 
 </body>
+
 </html>
